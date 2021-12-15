@@ -9,26 +9,25 @@ class App extends Component {
 
     this.state = {
       villagerData: villagerData,
-      currentVillagerId: -1,
+      currentVillager: villagerData.wol00,
       villagers: [],
     };
   }
 
   changeVillager = () => {
     const { villagers } = this.state;
-
-    this.setState({
-      currentVillagerId: Math.ceil(
-        Math.random() * Object.keys(villagerData).length
-      ),
-    });
-  };
-
-  addVillager = () => {
-    const { villagers, currentVillagerId } = this.state;
+    const currentVillagerId = Math.ceil(
+      Math.random() * Object.keys(villagerData).length
+    );
     const currentVillager = Object.values(villagerData).find(
       (villager) => villager.id === currentVillagerId
     );
+
+    this.setState({ currentVillager });
+  };
+
+  addVillager = () => {
+    const { villagers, currentVillager } = this.state;
 
     this.setState({
       villagers: [...villagers, currentVillager],
@@ -43,13 +42,9 @@ class App extends Component {
 
   render() {
     console.log(this.state);
-    const { villagers, currentVillagerId } = this.state;
-    const currentVillager = villagers.find(
-      (villager) => villager.id === currentVillagerId
-    );
-
+    const { villagers, currentVillager } = this.state;
     const villagersToDisplay = villagers.map((villager, i) => {
-      console.log(villager)
+      console.log(villager);
       return (
         <VillagerCard
           key={i}
@@ -67,7 +62,7 @@ class App extends Component {
           <button onClick={this.addVillager}>Add villager to village</button>
           <button onClick={this.handleReset}>Clear Village</button>
           <div>
-            Currently selected villager {currentVillager ? currentVillager.name : ''}
+            Currently selected villager: {currentVillager.name["name-USen"]}
           </div>
           <div>Number of villagers in village: {villagers.length}</div>
           <div className="villager-grid">{villagersToDisplay}</div>
